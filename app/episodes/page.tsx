@@ -8,7 +8,7 @@ const VIDS_PER_PAGE = 6;
 const Page = () => {
     const [data, setData] = useState<VideoData[]>([]);
     useEffect(() => {
-        fetch("https://upodcast.vercel.app/api/episodes")
+        fetch(`/api/episodes`)
             .then(res => res.json()).then(t => setData(t))
             .catch(err => console.log(err))
     }, [])

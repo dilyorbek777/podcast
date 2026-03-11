@@ -10,7 +10,7 @@ const POSTS_PER_PAGE = 6;
 const Blog = () => {
     const [data, setData] = useState<Blog[]>([]);
     useEffect(() => {
-        fetch("https://upodcast.vercel.app/api/blogs")
+        fetch(`/api/blogs`)
             .then(res => res.json()).then(t => setData(t))
             .catch(err => console.log(err))
     }, [])
