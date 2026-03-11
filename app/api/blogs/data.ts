@@ -55,4 +55,22 @@ export const blogs: Blog[] = [
     created_at: "2026-02-19T12:49:06.539849",
     category: "Finance",
   },
+  {
+    id: "ep-00dde1",
+    title: "Delta compression using up to 12 threads",
+    description:
+      "Multilateral Environmental Agreements (MEAs) are legally binding international treaties involving three or more states designed to tackle global or regional environmental issues.",
+    image: "https://picsum.photos/250/310",
+    created_at: "2026-03-09T12:49:06.539584",
+    category: "Technology",
+  },
+  {
+    id: "ep-00dde1",
+    title: "Resolving deltas: 100% (2/2) up to 12 threads",
+    description:
+      "Convention on Biological Diversity}—focus on protecting the environment from threats like pollution, climate change, and biodiversity Multilateral Environmental Agreements (MEAs) are legally binding international",
+    image: "https://picsum.photos/250/360",
+    created_at: "2026-03-09T12:49:06.539584",
+    category: "Technology",
+  },
 ];
