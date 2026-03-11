@@ -1,0 +1,50 @@
+[
+  {
+    "id": "1",
+    "title": "Mastering Modern Layouts",
+    "video": "https://loremipsum.video/vt/powerpoint-1.mp4",
+    "poster": "https://picsum.photos/205/300",
+    "created_at": "2024-03-01T09:00:00Z",
+    "category": "Design"
+  },
+  {
+    "id": "2",
+    "title": "Data Visualization Basics",
+    "video": "https://loremipsum.video/vt/powerpoint-2.mp4",
+    "poster": "https://picsum.photos/205/380",
+    "created_at": "2024-03-02T11:30:00Z",
+    "category": "Analytics"
+  },
+  {
+    "id": "3",
+    "title": "Collaborative Workflows",
+    "video": "https://loremipsum.video/vt/powerpoint-3.mp4",
+    "poster": "https://picsum.photos/205/370",
+    "created_at": "2024-03-03T14:45:00Z",
+    "category": "Productivity"
+  },
+  {
+    "id": "4",
+    "title": "Advanced Animation Techniques",
+    "video": "https://loremipsum.video/vt/powerpoint-4.mp4",
+    "poster": "https://picsum.photos/205/360",
+    "created_at": "2024-03-04T10:15:00Z",
+    "category": "Design"
+  },
+  {
+    "id": "5",
+    "title": "Project Management Essentials",
+    "video": "https://loremipsum.video/vt/powerpoint-2.mp4",
+    "poster": "https://picsum.photos/205/340",
+    "created_at": "2024-03-05T16:20:00Z",
+    "category": "Business"
+  },
+  {
+    "id": "6",
+    "title": "Security and Compliance",
+    "video": "https://loremipsum.video/vt/powerpoint-3.mp4",
+    "poster": "https://picsum.photos/205/350",
+    "created_at": "2024-03-06T08:50:00Z",
+    "category": "Engineering"
+  }
+]

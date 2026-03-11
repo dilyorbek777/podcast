@@ -1,0 +1,42 @@
+[
+  {
+    "id": "ep-001",
+    "title": "The Future of Remote Work: Hybrid vs. Fully Remote",
+    "description": "In this episode, we dive deep into the evolving landscape of the modern workplace. We interview HR experts and tech CEOs to find out which model truly wins for productivity and mental health.",
+    "image": "https://picsum.photos/205/300",
+    "created_at": "2026-03-09T12:49:06.539584",
+    "category": "Business"
+  },
+  {
+    "id": "ep-002",
+    "title": "Demystifying Artificial Intelligence for Creative Professionals",
+    "description": "Is AI a threat or a tool? We explore how designers, writers, and artists are using generative tools to speed up their workflow without losing their unique human touch.",
+    "image": "https://picsum.photos/205/350",
+    "created_at": "2026-03-06T12:49:06.539835",
+    "category": "Technology"
+  },
+  {
+    "id": "ep-003",
+    "title": "Sustainable Living: Small Changes with Big Impact",
+    "description": "Going green doesn't have to be expensive. This post covers five simple lifestyle swaps you can make today to reduce your carbon footprint while saving money.",
+    "image": "https://picsum.photos/220/300",
+    "created_at": "2026-03-01T12:49:06.539842",
+    "category": "Lifestyle"
+  },
+  {
+    "id": "ep-004",
+    "title": "The Science of Sleep: How to Optimize Your Rest",
+    "description": "Ever wonder why you're still tired after 8 hours of sleep? We talk to a neuroscientist about sleep cycles, blue light, and the perfect evening routine for deep recovery.",
+    "image": "https://picsum.photos/205/305",
+    "created_at": "2026-02-25T12:49:06.539846",
+    "category": "Health"
+  },
+  {
+    "id": "ep-005",
+    "title": "Starting a Side Hustle in 2026: A Step-by-Step Guide",
+    "description": "From finding your niche to making your first $1,000, we break down the logistics of launching a profitable side business without quitting your day job.",
+    "image": "https://picsum.photos/205/300",
+    "created_at": "2026-02-19T12:49:06.539849",
+    "category": "Finance"
+  }
+]
