@@ -10,7 +10,7 @@ const POSTS_PER_PAGE = 6;
 const Blog = () => {
     const [data, setData] = useState<Blog[]>([]);
     useEffect(() => {
-        fetch("http://localhost:3000/api/blogs")
+        fetch("https://upodcast.vercel.app/api/blogs")
             .then(res => res.json()).then(t => setData(t))
             .catch(err => console.log(err))
     }, [])
@@ -46,7 +46,7 @@ const Blog = () => {
 
     return (
         <div className="max-w-[1720px] mx-auto w-full p-24 max-md:p-4 min-h-screen flex flex-col items-center">
-            <h1 className="text-5xl font-bold my-12 max-md:my-16">Explore our blogs</h1>
+            <h1 className="text-5xl font-bold my-12 max-md:my-16 text-center">Explore our blogs</h1>
 
             <motion.div
                 variants={containerVariants}

@@ -28,7 +28,7 @@ const Home = () => {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="font-semibold text-[78px] leading-[80px] tracking-[-0.02em] text-center max-w-[841px] mx-auto"
+            className="font-semibold text-[78px] leading-[80px] max-lg:leading-[60px] tracking-[-0.02em] text-center max-w-[841px] mx-auto max-lg:text-[48px] "
           >
             {siteDetails.title}
           </motion.h1>
