@@ -47,4 +47,20 @@ export const episodes = [
     created_at: "2024-03-06T08:50:00Z",
     category: "Engineering",
   },
+  {
+    id: "8",
+    title: "Total 12 delta",
+    video: "https://loremipsum.video/vt/powerpoint-1.mp4",
+    poster: "https://picsum.photos/210/340",
+    created_at: "2024-03-05T16:20:00Z",
+    category: "Business",
+  },
+  {
+    id: "10",
+    title: "Project branch 'main' set up Essentials",
+    video: "https://loremipsum.video/vt/powerpoint-4.mp4",
+    poster: "https://picsum.photos/270/340",
+    created_at: "2024-03-05T16:20:00Z",
+    category: "Technology",
+  },
 ];
