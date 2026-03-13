@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description: "Learn more about our podcast, our mission, and the team behind it.",
 
   openGraph: {
-    title: "About Us | " + siteDetails.title,
+    title: "About Us | " + siteDetails.sub,
     description: "Learn more about our podcast and our mission.",
     url: `${siteDetails.url}/about`,
     images: [
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title: "About Us | " + siteDetails.title,
+    title: "About Us | " + siteDetails.sub,
     description: "Learn more about our podcast and our mission.",
     images: [about[0].img || "/podcast.jpg"],
   },

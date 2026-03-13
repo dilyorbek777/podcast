@@ -4,6 +4,7 @@ import { siteDetails, users } from "@/constants"
 import Image from "next/image"
 import { IoIosPlay } from "react-icons/io"
 import { motion } from "framer-motion"
+import Link from "next/link"
 
 const Home = () => {
   return (
@@ -11,7 +12,7 @@ const Home = () => {
 
       <Image
         className="w-full h-screen top-0 object-top object-cover absolute"
-        alt={siteDetails.title}
+        alt={siteDetails.sub}
         src={"/bg.png"}
         width={1700}
         height={700}
@@ -40,7 +41,10 @@ const Home = () => {
             transition={{ duration: 0.5 }}
             className="bg-primary hover:bg-primary-700 transition-all px-7 py-4 flex items-center justify-center gap-2 rounded-sd text-lg cursor-pointer"
           >
-            Latest episode <IoIosPlay />
+            <Link href="/episodes">
+
+              Latest episode <IoIosPlay />
+            </Link>
           </motion.button>
 
           {/* Bottom Text */}
@@ -61,7 +65,7 @@ const Home = () => {
                   width={41}
                   height={41}
                   src={u.img}
-                  alt={`${siteDetails.title} User: ${u.id}`}
+                  alt={`${siteDetails.sub}'s User: ${u.id}`}
                   className="hover:scale-110 transition-all duration-150"
                 />
               ))}

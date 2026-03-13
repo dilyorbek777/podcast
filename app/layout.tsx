@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteDetails.url),
 
   title: {
-    default: siteDetails.title,
-    template: `%s | ${siteDetails.title}`,
+    default: siteDetails.sub,
+    template: `%s | ${siteDetails.sub}`,
   },
 
   description: siteDetails.text,
@@ -31,13 +31,13 @@ export const metadata: Metadata = {
     "technology"
   ],
 
-  authors: [{ name: siteDetails.title }],
+  authors: [{ name: siteDetails.author }],
 
   openGraph: {
-    title: siteDetails.title,
+    title: siteDetails.sub,
     description: siteDetails.text,
     url: siteDetails.url,
-    siteName: siteDetails.title,
+    siteName: siteDetails.sub,
     images: [
       {
         url: "/bg.png",
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title: siteDetails.title,
+    title: siteDetails.sub,
     description: siteDetails.text,
     images: ["/bg.png"],
   },

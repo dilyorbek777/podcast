@@ -18,10 +18,10 @@ export const metadata: Metadata = {
     },
 
     openGraph: {
-        title: `Episodes | ${siteDetails.title}`,
+        title: `Episodes | ${siteDetails.sub}`,
         description: "Watch all podcast episodes and interviews.",
         url: `${siteDetails.url}/episodes`,
-        siteName: siteDetails.title,
+        siteName: siteDetails.sub,
         images: [
             {
 
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
 
     twitter: {
         card: "summary_large_image",
-        title: `Episodes | ${siteDetails.title}`,
+        title: `Episodes | ${siteDetails.sub}`,
         description: "Watch all podcast episodes and interviews.",
         images: [about[0].img || "/podcast.jpg"],
     },
