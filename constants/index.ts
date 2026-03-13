@@ -8,6 +8,7 @@ export const navLinks = [
 export const siteDetails = {
   title: "Elevate Your Mind, \n Transform Your World",
   text: "The platform that bridges the gap between deep introspection and bold action, offering a curated library of insights from world-class thinkers, spiritual guides, and innovators",
+  url:"https://upodcast.vercel.app"
 };
 
 export const about = [
