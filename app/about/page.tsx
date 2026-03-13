@@ -1,62 +1,33 @@
-"use client"
+
+import About from "@/components/About";
 import { about, siteDetails } from "@/constants"
-import Image from "next/image"
-
-import { motion } from "framer-motion"
+import { Metadata } from "next";
 
 
-const About = () => {
+export const metadata: Metadata = {
+  title: "About Us",
+  description: "Learn more about our podcast, our mission, and the team behind it.",
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.3,
+  openGraph: {
+    title: "About Us | " + siteDetails.title,
+    description: "Learn more about our podcast and our mission.",
+    url: `${siteDetails.url}/about`,
+    images: [
+      {
+        url: about[0].img || "/podcast.jpg",
+        width: 1200,
+        height: 630,
       },
-    },
-  };
+    ],
+  },
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 40 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.8 }
-    },
-  };
-
-  return (
-    <div className="max-w-[1720px] mx-auto w-full p-24 max-md:p-4 min-h-screen flex flex-col items-center">
-      <h1 className="text-5xl font-bold my-8 max-md:my-16 text-center">About Us</h1>
-
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        className="grid grid-cols-2 items-center max-lg:grid-cols-1 gap-10"
-      >
-        {about.map((a) => (
-          <motion.div key={a.id} variants={itemVariants}>
-            <div className="flex flex-col text-xl my-7 gap-3 max-w-[500px]">
-              <h3 className="text-primary text-4xl font-bold">{a.title}</h3>
-              <p>{a.text}</p>
-            </div>
-            {a.img && (
-              <Image
-                alt={siteDetails.title}
-                src={a.img}
-                width={700}
-                height={400}
-                className="h-[400px] rounded-2xl object-cover  w-full max-w-[700px]"
-              />
-            )}
-          </motion.div>
-        ))}
-      </motion.div>
-    </div>
-  );
+  twitter: {
+    card: "summary_large_image",
+    title: "About Us | " + siteDetails.title,
+    description: "Learn more about our podcast and our mission.",
+    images: [about[0].img || "/podcast.jpg"],
+  },
 };
-
-
-export default About
+export default function Page() {
+  return <About />;
+}
