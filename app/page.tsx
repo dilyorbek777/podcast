@@ -41,7 +41,7 @@ const Home = () => {
             transition={{ duration: 0.5 }}
             className="bg-primary hover:bg-primary-700 transition-all px-7 py-4 flex items-center justify-center gap-2 rounded-sd text-lg cursor-pointer"
           >
-            <Link href="/episodes">
+            <Link href="/episodes" className="flex gap-2 items-center justify-center">
 
               Latest episode <IoIosPlay />
             </Link>
