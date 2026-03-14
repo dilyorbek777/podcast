@@ -4,6 +4,9 @@ import "./globals.css";
 
 import { siteDetails } from "@/constants";
 import Navbar from "@/components/navbar";
+import { ClerkProvider } from "@clerk/nextjs";
+import ConvexClientProvider from "@/providers/ConvexClientProvider";
+import SyncUser from "@/components/SyncUser";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -74,9 +77,17 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="font-sans antialiased min-h-screen bg-white text-black">
-        <Navbar />
-        <main>{children}</main>
+        <ClerkProvider>
+
+          <ConvexClientProvider>
+            <Navbar />
+            <main>
+              <SyncUser />{children}</main>
+          </ConvexClientProvider>
+
+
+        </ClerkProvider>
       </body>
-    </html>
+    </html >
   );
 }

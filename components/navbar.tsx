@@ -1,5 +1,7 @@
 "use client";
 import { navLinks } from "@/constants";
+import { Show, SignInButton, SignUpButton, UserButton } from '@clerk/nextjs'
+import { Geist, Geist_Mono } from 'next/font/google'
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -26,15 +28,34 @@ const Navbar = () => {
                         <li key={link.path}>
                             <a href={link.path} className={` tracking-wider flex items-center gap-1 justify-center hover:text-primary transition-all ${pathName === link.path ? " text-primary " : ""}`}>{link.name}{link.name === "AI" ? (
                                 <span className="text-sm px-1 py-0 rounded-sd border-primary border text-primary hover:opacity-80">beta</span>
-                                ) : ""}</a>
+                            ) : ""}</a>
                         </li>
                     ))}
 
                 </ul>
-                <button className=" text-[16px] px-8 py-3 bg-primary cursor-pointer hover:bg-primary-700 transition-all  font-medium rounded-sd">Sign Up</button>
+
+                <div className="flex items-center justify-center gap-5">
+                    <Show when="signed-out">
+                        <Link href={'/sign-in'}>
+                            <button className="border border-white backdrop-blur-sm hover:backdrop-blur-2xl font-semibold  text-white 
+                            hover:border-primary
+                             flex items-center justify-center gap-2 rounded-sd text-lg cursor-pointer text-[16px] px-8 py-3  hover:bg-primary hover:text-white transition-all  ">Sign In</button>
+
+                        </Link>
+                        <Link href={'/sign-up'}>
+                            <button className=" text-[16px] px-8 py-3 bg-primary cursor-pointer hover:bg-primary-700 transition-all  font-semibold rounded-sd">Sign Up</button>
+
+                        </Link>
+
+                    </Show>
+                    <Show when="signed-in">
+                        <UserButton />
+                    </Show>
+                </div>
             </div>
 
             {btn ? <button onClick={() => setBtn(!btn)} className="text-lg lg:hidden"><FaXmark /></button> : <button onClick={() => setBtn(!btn)} className="text-lg lg:hidden"><FaAlignJustify /></button>}
+
 
         </nav>
     )
