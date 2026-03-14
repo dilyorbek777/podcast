@@ -35,17 +35,32 @@ const Home = () => {
           </motion.h1>
 
           {/* Button Animation */}
-          <motion.button
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-            className="bg-primary hover:bg-primary-700 transition-all px-7 py-4 flex items-center justify-center gap-2 rounded-sd text-lg cursor-pointer"
-          >
-            <Link href="/episodes" className="flex gap-2 items-center justify-center">
+          <div className="flex items-center gap-7 flex-wrap justify-center">
+            <motion.button
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+              className="bg-primary hover:bg-primary-700 transition-all px-7 py-4 flex items-center justify-center gap-2 rounded-sd text-lg cursor-pointer"
+            >
+              <Link href="/episodes" className="flex gap-2 items-center justify-center">
 
-              Latest episode <IoIosPlay />
-            </Link>
-          </motion.button>
+                Latest episode <IoIosPlay />
+              </Link>
+            </motion.button>
+            <motion.button
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+              className="border border-primary backdrop-blur-sm hover:backdrop-blur-2xl font-bold  text-primary transition-all px-7 py-4 flex items-center justify-center gap-2 rounded-sd text-lg cursor-pointer"
+            >
+              <Link href="/ai" className="flex gap-2 items-center justify-center">
+
+                Try AI
+                <span className="text-sm px-1 py-0 rounded-sd border-primary border text-black bg-primary hover:opacity-80">PRO</span>
+
+              </Link>
+            </motion.button>
+          </div>
 
           {/* Bottom Text */}
           <motion.div

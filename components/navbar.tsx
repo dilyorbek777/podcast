@@ -24,7 +24,9 @@ const Navbar = () => {
                 <ul className="links  flex gap-[38px] items-center justify-between text-lg  max-lg:text-[15px]  max-lg:flex-col max-lg:gap-5 ">
                     {navLinks.map((link) => (
                         <li key={link.path}>
-                            <a href={link.path} className={` tracking-wider hover:text-primary transition-all ${pathName === link.path ? " text-primary " : ""}`}>{link.name}</a>
+                            <a href={link.path} className={` tracking-wider flex items-center gap-1 justify-center hover:text-primary transition-all ${pathName === link.path ? " text-primary " : ""}`}>{link.name}{link.name === "AI" ? (
+                                <span className="text-sm px-1 py-0 rounded-sd border-primary border text-primary hover:opacity-80">beta</span>
+                                ) : ""}</a>
                         </li>
                     ))}
 
