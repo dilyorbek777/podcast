@@ -2,8 +2,10 @@
 
 import PostCard from "@/components/postCard"
 import Link from "next/link"
-import { useEffect, useMemo, useState } from "react"
+import { useMemo, useState } from "react"
 import { motion } from "framer-motion"
+import { useQuery } from "convex/react"
+import { api } from "@/convex/_generated/api"
 
 const POSTS_PER_PAGE = 6
 
@@ -28,22 +30,12 @@ const itemVariants = {
 }
 
 const Blog = () => {
-    const [data, setData] = useState<Blog[]>([])
+
+    const blogs = useQuery(api.blogs.getBlogs)
+
     const [currentPage, setCurrentPage] = useState(1)
 
-    useEffect(() => {
-        const getBlogs = async () => {
-            try {
-                const res = await fetch("/api/blogs")
-                const blogs = await res.json()
-                setData(blogs)
-            } catch (error) {
-                console.error(error)
-            }
-        }
-
-        getBlogs()
-    }, [])
+    const data = blogs ?? []
 
     const totalPages = useMemo(
         () => Math.ceil(data.length / POSTS_PER_PAGE),
@@ -55,20 +47,27 @@ const Blog = () => {
         return data.slice(start, start + POSTS_PER_PAGE)
     }, [data, currentPage])
 
+    if (!blogs) return <div>Loading...</div>
+
     return (
         <section className="max-w-[1720px] mx-auto w-full p-24 max-md:p-4 min-h-screen flex flex-col items-center">
-            <h1 className="text-5xl font-bold my-12 max-md:my-16 text-center">Explore our blogs</h1>
+
+            <h1 className="text-5xl font-bold my-12 max-md:my-16 text-center">
+                Explore our blogs
+            </h1>
 
             <motion.div
                 variants={containerVariants}
                 initial="hidden"
-                animate="visible" className="grid grid-cols-3 max-2xl:grid-cols-2 max-lg:grid-cols-1 gap-10 my-8">
+                animate="visible"
+                className="grid grid-cols-3 max-2xl:grid-cols-2 max-lg:grid-cols-1 gap-10 my-8"
+            >
                 {currentPosts.map((post) => (
-                    <motion.div key={post.id} variants={itemVariants}>
-                        <Link href={`/blog/${post.id}`} >
+                    <motion.div key={post._id} variants={itemVariants}>
+                        <Link href={`/blog/${post._id}`} id={post._id}> 
                             <PostCard
                                 category={post.category}
-                                image={post.image}
+                                image={post.imageUrl}
                                 text={post.description}
                                 title={post.title}
                             />
@@ -76,6 +75,7 @@ const Blog = () => {
                     </motion.div>
                 ))}
             </motion.div>
+
             <div className="flex gap-3 mt-10">
                 {Array.from({ length: totalPages }, (_, i) => (
                     <button
@@ -91,7 +91,8 @@ const Blog = () => {
                     </button>
                 ))}
             </div>
-        </section >
+
+        </section>
     )
 }
 

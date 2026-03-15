@@ -3,10 +3,11 @@
 import Image from "next/image"
 import { useState } from "react"
 import { BiPlay } from "react-icons/bi"
+const maxLength = 160;
 
 
-const VideoCard = ({ category, title, image, video, time }: {
-    category: string, title: string, image: string, video: string, time: string
+const VideoCard = ({ category, title, image, createdAt }: {
+    category: string, title: string, image: string, createdAt: string
 }) => {
 
     const [isLoading, setIsLoading] = useState(true)
@@ -25,8 +26,8 @@ const VideoCard = ({ category, title, image, video, time }: {
                     }}`} onLoad={() => setIsLoading(false)} />
             </div>
             <div className="flex flex-col px-4 py-5 gap-1 border-primary border border-t-0  rounded-b-sd" >
-                <p className="font-semibold text-gray-500 text-lg tracking-wide">{time.split('T')[0].split("-").join(".")}</p>
                 <p className="text-2xl  text-primary font-bold ">{title}</p>
+                <p className="font-semibold text-gray-500 text-lg tracking-wide">{createdAt.length >= maxLength ? createdAt.slice(0, maxLength) + "..." : createdAt}</p>
             </div>
         </div>
     )

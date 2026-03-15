@@ -1,98 +1,120 @@
+import { ConvexHttpClient } from "convex/browser";
+import { api } from "@/convex/_generated/api";
+import type { Id } from "@/convex/_generated/dataModel";
 import { Metadata } from "next";
+import { redirect } from "next/navigation";
+import { auth } from "@clerk/nextjs/server";
 
-interface Episode {
-  id: string;
-  title: string;
-  video: string;
-  poster: string;
-  created_at: string;
-  category: string;
-}
+const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
 
-async function getEpisode(id: string): Promise<Episode> {
-  const res = await fetch(`${process.env.API_URL}/api/episodes/${id}`, {
-    cache: "no-store",
+async function getEpisode(id: string) {
+  const episode = await convex.query(api.episode.getEpisode, {
+    id: id as unknown as Id<"episodes">,
   });
 
-  if (!res.ok) {
-    throw new Error("Episode not found");
-  }
-
-  return res.json();
+  return episode ?? null;
 }
 
-/* ---------- SEO / OpenGraph ---------- */
-export async function generateMetadata(
-  { params }: { params: Promise<{ id: string }> }
-): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+
   const { id } = await params;
+
   const episode = await getEpisode(id);
+
+  if (!episode) {
+    return {
+      title: "Episode not found",
+    };
+  }
 
   return {
     title: episode.title,
-    description: `Watch "${episode.title}" in category ${episode.category}`,
+    description: episode.description,
+
     openGraph: {
       title: episode.title,
-      description: `Watch "${episode.title}" in category ${episode.category}`,
-      images: [
-        {
-          url: episode.poster,
-          width: 1200,
-          height: 630,
-          alt: episode.title,
-        },
-      ],
-      type: "video.other",
-      videos: [
-        {
-          url: episode.video,
-          width: 1280,
-          height: 720,
-        },
-      ],
+      description: episode.description,
+      type: "video.episode",
+
+      images: episode.posterUrl
+        ? [
+          {
+            url: episode.posterUrl,
+            width: 1200,
+            height: 630,
+            alt: episode.title,
+          },
+        ]
+        : undefined,
+
+      videos: episode.videoUrl
+        ? [
+          {
+            url: episode.videoUrl,
+            width: 1280,
+            height: 720,
+            type: "video/mp4",
+          },
+        ]
+        : undefined,
     },
+
     twitter: {
       card: "player",
       title: episode.title,
-      description: `Watch "${episode.title}" in category ${episode.category}`,
-      images: [episode.poster],
+      description: episode.description,
+      images: episode.posterUrl ? [episode.posterUrl] : [],
     },
   };
 }
 
-/* ---------- PAGE ---------- */
-export default async function EpisodePage(
-  { params }: { params: Promise<{ id: string }> }
-) {
+export default async function EpisodePage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+
+  const { userId } = await auth();
+
+  if (!userId) {
+    redirect("/sign-in");
+  }
+
   const { id } = await params;
+
   const episode = await getEpisode(id);
 
-  return (
-    <article className="max-w-4xl mx-auto px-6 py-16  my-20">
-      {/* Category */}
-      <span className="text-sm text-primary font-medium">
-        {episode.category}
-      </span>
+  if (!episode) {
+    return <div className="text-center py-20">Episode not found</div>;
+  }
 
-      {/* Title */}
-      <h1 className="text-4xl md:text-5xl font-bold mt-3 leading-tight">
+  return (
+    <div className="max-w-4xl mx-auto px-6 py-16 my-20">
+
+      <h1 className="text-4xl md:text-5xl font-bold">
         {episode.title}
       </h1>
 
-      {/* Date */}
-      <p className="text-gray-500 text-sm mt-2">
-        {new Date(episode.created_at).toLocaleDateString()}
+      <p className="text-gray-400 mt-3">
+        {new Date(episode.createdAt).toLocaleDateString()}
       </p>
 
-      {/* Video */}
-      <div className="mt-10 w-full relative rounded-2xl overflow-hidden">
-        <video
-          src={episode.video}
-          poster={episode.poster}
-          controls
-          className="w-full h-[400px] object-cover rounded-2xl"
-        />
+
+      {/* AUDIO PLAYER */}
+      {episode.videoUrl && (
+        <div className="mt-10">
+          <video controls className="w-full h-[500px] object-cover" poster={episode.posterUrl}>
+            <source src={episode.videoUrl} />
+          </video>
+        </div>
+      )}
+      <div className="prose prose-lg mt-10 text-white">
+        <p>{episode.description}</p>
       </div>
-    </article>
+    </div>
   );
 }

@@ -1,52 +1,33 @@
 import type { Metadata } from "next"
-import EpisodesClient from "@/components/EpisodesClient"
 import { about, siteDetails } from "@/constants"
+import EpisodesClient from "@/components/EpisodesClient"
 
 export const metadata: Metadata = {
-    title: "Episodes",
-    description: "Watch all podcast episodes, interviews, and discussions.",
+  title: "Blog",
+  description: "Explore our latest articles, tutorials, and podcast updates.",
 
-    keywords: [
-        "podcast episodes",
-        "tech podcast",
-        "developer podcast",
-        "video podcast"
+  openGraph: {
+    title: `Blog | ${siteDetails.sub}`,
+    description: "Explore our latest articles and podcast updates.",
+    url: `${siteDetails.url}/blog`,
+    images: [
+      {
+
+        url: about[0].img || "/podcast.jpg",
+        width: 1200,
+        height: 630,
+      },
     ],
+  },
 
-    alternates: {
-        canonical: `${siteDetails.url}/episodes`,
-    },
-
-    openGraph: {
-        title: `Episodes | ${siteDetails.sub}`,
-        description: "Watch all podcast episodes and interviews.",
-        url: `${siteDetails.url}/episodes`,
-        siteName: siteDetails.sub,
-        images: [
-            {
-
-                url: about[0].img || "/podcast.jpg",
-                width: 1200,
-                height: 630,
-            },
-        ],
-        locale: "en_US",
-        type: "website",
-    },
-
-    twitter: {
-        card: "summary_large_image",
-        title: `Episodes | ${siteDetails.sub}`,
-        description: "Watch all podcast episodes and interviews.",
-        images: [about[0].img || "/podcast.jpg"],
-    },
-
-    robots: {
-        index: true,
-        follow: true,
-    },
+  twitter: {
+    card: "summary_large_image",
+    title: `Blog | ${siteDetails.sub}`,
+    description: "Explore our latest articles and podcast updates.",
+    images: [about[0].img || "/podcast.jpg"],
+  },
 }
 
 export default function Page() {
-    return <EpisodesClient />
+  return <EpisodesClient />
 }

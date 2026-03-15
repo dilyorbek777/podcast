@@ -3,7 +3,7 @@
 import Image from "next/image"
 import { useState } from "react"
 
-
+const maxLength = 160;
 const PostCard = ({ category, title, text, image }: {
     category: string, title: string, text: string, image: string
 }) => {
@@ -23,7 +23,7 @@ const PostCard = ({ category, title, text, image }: {
             <div className="flex flex-col px-4 py-5 gap-1 border-primary border border-t-0  rounded-b-sd" >
                 <p className="font-semibold text-gray-500  text-lg tracking-wide">{("2026-03-01T12:49:06.539842").split('T')[0].split("-").join(".")}</p>
                 <p className="text-2xl  text-primary font-bold hover:text-primary-400 transition-all ">{title}</p>
-                <p className="text-[16px] my-2 tracking-wide">{text}</p>
+                <p className="text-[16px] my-2 tracking-wide">{text.length >= maxLength ? text.slice(0, maxLength) + "..." : text}</p>
             </div>
         </div>
     )
