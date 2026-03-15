@@ -22,7 +22,7 @@ export default function NewBlogPage() {
             category,
           });
           alert("Done successfully!"); // ✅ show success message
-          location.assign("/blogs/")
+          location.assign("/blog/")
 
           // Optional: reset form
           setTitle("");
