@@ -4,6 +4,7 @@ import type { Id } from "@/convex/_generated/dataModel";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { auth } from "@clerk/nextjs/server";
+import Image from "next/image";
 
 const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
 
@@ -94,7 +95,9 @@ export default async function EpisodePage({
 
   return (
     <div className="max-w-4xl mx-auto px-6 py-16 my-20">
-
+      <span className="text-sm font-medium text-primary my-3">
+        {episode.category}
+      </span>
       <h1 className="text-4xl md:text-5xl font-bold">
         {episode.title}
       </h1>
@@ -104,14 +107,22 @@ export default async function EpisodePage({
       </p>
 
 
-      {/* AUDIO PLAYER */}
-      {episode.videoUrl && (
-        <div className="mt-10">
-          <video controls className="w-full h-[500px] object-cover" poster={episode.posterUrl}>
-            <source src={episode.videoUrl} />
-          </video>
-        </div>
-      )}
+      {/* Video PLAYER */}
+      <div className="relative">
+        {episode.videoUrl && (
+          <div className="mt-10">
+            <video controls className="w-full h-[500px] object-cover rounded-sd outline-none " poster={episode.posterUrl}>
+              <source src={episode.videoUrl} />
+            </video>
+          </div>
+        )}
+        {episode.videoUrl && (
+          <div className="mt-10">
+            <Image src={episode.posterUrl} alt={episode.title} className="w-full  absolute top-0 -z-20 scale-105 clip-path-[ellipse(50%_59%_at_49%_75%)]  blur-3xl h-[500px] object-cover rounded-sd outline-none " width={700} height={500} />
+          </div>
+        )}
+      </div>
+
       <div className="prose prose-lg mt-10 text-white">
         <p>{episode.description}</p>
       </div>

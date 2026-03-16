@@ -85,7 +85,7 @@ export default function RootLayout({
             <Navbar />
             <main>
               <SyncUser />{children}</main>
-            <Link href={'/contact'} className="px-5 py-3 rounded-sd bg-primary  fixed bottom-5 right-5 z-30 font-bold  flex items-center justify-center gap-2 hover:bg-primary-600 text-white"><Send /> Contact Us</Link>
+            <Link href={'/contact'} className="px-5 py-3 rounded-sd bg-primary shadow-2xl shadow-primary fixed bottom-5 right-5 z-30 font-bold  flex items-center justify-center gap-2 hover:bg-primary-600 text-white"><Send /> <span className="max-md:hidden">Contact Us</span></Link>
           </ConvexClientProvider>
 
 
