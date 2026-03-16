@@ -47,7 +47,7 @@ export default function EpisodesClient() {
 
   return (
     <section className="max-w-[1720px] mx-auto w-full p-24 max-md:p-4 min-h-screen flex flex-col items-center">
-      <h1 className="text-5xl font-bold my-12 text-center">
+      <h1 className="text-5xl font-bold my-18 text-center">
         Podcast Episodes
       </h1>
 

@@ -47,7 +47,14 @@ const Blog = () => {
         return data.slice(start, start + POSTS_PER_PAGE)
     }, [data, currentPage])
 
-    if (!blogs) return <div>Loading...</div>
+    if (!blogs) return (<div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4 w-full h-screen absolute z-50">
+        {/* Spinner Animation */}
+        <div className="w-12 h-12 border-4 border-blue-200 border-t-primary-600 rounded-full animate-spin"></div>
+
+        <p className="text-primary font-medium animate-pulse">
+            Site is loading...
+        </p>
+    </div>);
 
     return (
         <section className="max-w-[1720px] mx-auto w-full p-24 max-md:p-4 min-h-screen flex flex-col items-center">
@@ -64,7 +71,7 @@ const Blog = () => {
             >
                 {currentPosts.map((post) => (
                     <motion.div key={post._id} variants={itemVariants}>
-                        <Link href={`/blog/${post._id}`} id={post._id}> 
+                        <Link href={`/blog/${post._id}`} id={post._id}>
                             <PostCard
                                 category={post.category}
                                 image={post.imageUrl}
