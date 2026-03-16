@@ -13,6 +13,7 @@ export default function AdminPage() {
         </p>
         <Link className="bg-primary px-5 rounded-sd py-4" href="admin/episodes/new">New episode</Link>
         <Link className="bg-primary px-5 rounded-sd py-4" href="admin/blogs/new">New Blog</Link>
+        <Link className="bg-primary px-5 rounded-sd py-4" href="admin/blogs/">View/delete Blog</Link>
       </div>
     </div>
   );
