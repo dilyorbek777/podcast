@@ -4,10 +4,12 @@ import { siteDetails, users } from "@/constants"
 import Image from "next/image"
 import About from "@/components/About";
 import BlogClient from "@/components/BlogClient";
+import ContactClient from "@/components/ContactClient";
 
 import { IoIosPlay } from "react-icons/io"
 import { motion } from "framer-motion"
 import Link from "next/link"
+import EpisodesClient from "@/components/EpisodesClient";
 
 const Home = () => {
   return (
@@ -96,6 +98,8 @@ const Home = () => {
       </div>
       <About />
       <BlogClient />
+      <EpisodesClient />
+      <ContactClient />
 
     </>
   )
