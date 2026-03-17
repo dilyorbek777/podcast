@@ -96,10 +96,6 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <About />
-      <BlogClient />
-      <EpisodesClient />
-      <ContactClient />
 
     </>
   )
