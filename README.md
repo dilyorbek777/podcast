@@ -1,3 +1,4 @@
+## constants/index.ts
 ```
 export const navLinks = [
   { name: "Home", path: "/" },
