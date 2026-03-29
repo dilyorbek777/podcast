@@ -44,7 +44,7 @@ const maxLength = 160;
 const titleMaxLength = 32;
 
 export default function AdminPage() {
-  const [activeTab, setActiveTab] = useState<"blogs" | "episodes" | "newsletter" | "contacts">("blogs")
+  const [activeTab, setActiveTab] = useState<"blogs" | "episodes" | "newsletter" | "contacts" | "users">("blogs")
   const [editingItem, setEditingItem] = useState<any>(null)
   const [isCreating, setIsCreating] = useState(false)
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
@@ -53,6 +53,7 @@ export default function AdminPage() {
   const blogs = useQuery(api.blogs.getBlogs)
   const episodes = useQuery(api.episode.getEpisodes)
   const newsletter = useQuery(api.newsletter.getAll)
+  const users = useQuery(api.users.getAllUsers)
   const contacts = useQuery(api.contacts.getContacts)
   
   const sortedBlogs = useMemo(() => {
@@ -173,7 +174,7 @@ export default function AdminPage() {
     setIsEditDialogOpen(true)
   }
 
-  if (!blogs || !episodes || !newsletter || !contacts) return (
+  if (!blogs || !episodes || !newsletter || !contacts || !users) return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4 w-full h-screen absolute z-50">
       {/* Spinner Animation */}
       <div className="w-12 h-12 border-4 border-blue-200 border-t-primary-600 rounded-full animate-spin"></div>
@@ -353,6 +354,12 @@ export default function AdminPage() {
           Subscribed Users ({newsletter?.length || 0})
         </Button>
         <Button 
+          variant={activeTab === "users" ? "default" : "outline"}
+          onClick={() => setActiveTab("users")}
+        >
+          Users ({users?.length || 0})
+        </Button>
+        <Button 
           variant={activeTab === "contacts" ? "default" : "outline"}
           onClick={() => setActiveTab("contacts")}
         >
@@ -360,7 +367,7 @@ export default function AdminPage() {
         </Button>
       </motion.div>
 
-      {activeTab !== "newsletter" && activeTab !== "contacts" && (
+      {activeTab !== "newsletter" && activeTab !== "contacts" && activeTab !== "users" && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -541,6 +548,74 @@ export default function AdminPage() {
                   <div className="text-center py-12">
                     <p className="text-muted-foreground text-lg">
                       No subscribers yet. Users will appear here when they subscribe to newsletter.
+                    </p>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </motion.div>
+        )}
+
+        {activeTab === "users" && (
+          <motion.div variants={itemVariants} className="col-span-full">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-2xl">All Users</CardTitle>
+                <CardDescription>
+                  Registered users in the system
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {users && users.length > 0 ? (
+                  <div className="space-y-4">
+                    <div className="text-sm text-muted-foreground mb-4">
+                      Total users: {users.length}
+                    </div>
+                    <div className="grid gap-4">
+                      {users.map((user: any) => (
+                        <div
+                          key={user._id}
+                          className="flex items-center justify-between p-4 border rounded-lg"
+                        >
+                          <div className="flex items-center gap-4">
+                            {user.profileImage ? (
+                              <img 
+                                src={user.profileImage} 
+                                alt={user.fullName || user.email}
+                                className="w-12 h-12 rounded-full object-cover"
+                              />
+                            ) : (
+                              <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center">
+                                <span className="text-gray-500 text-lg font-semibold">
+                                  {(user.fullName || user.email).charAt(0).toUpperCase()}
+                                </span>
+                              </div>
+                            )}
+                            <div>
+                              <p className="font-medium">
+                                {user.fullName || 'No full name'}
+                              </p>
+                              <p className="text-sm text-muted-foreground">
+                                {user.email}
+                              </p>
+                              <p className="text-xs text-muted-foreground">
+                                Joined {user._creationTime ? new Date(user._creationTime).toLocaleString() : 'Unknown date'}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Badge variant={user.role === "admin" ? "default" : "secondary"}>
+                              {user.role}
+                            </Badge>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="text-center py-12">
+                    <p className="text-muted-foreground text-lg">
+                      No users registered yet.
                     </p>
                   </div>
                 )}

@@ -5,8 +5,11 @@ export default defineSchema({
   users: defineTable({
     clerkId: v.string(),
     email: v.string(),
+    fullName: v.optional(v.string()),
     username: v.optional(v.string()),
     role: v.string(),
+    profileImage: v.optional(v.string()),
+    createdAt: v.optional(v.number()),
   }).index("by_clerkId", ["clerkId"]),
 
   blogs: defineTable({

@@ -19,10 +19,18 @@ export const getUserByClerkId = query({
     return user;
   },
 });
+export const getAllUsers = query({
+  handler: async (ctx) => {
+    const users = await ctx.db.query("users").collect();
+    return users;
+  },
+});
+
 export const createUser = mutation({
   args: {
     clerkId: v.string(),
     email: v.string(),
+    fullName: v.optional(v.string()),
     username: v.optional(v.string()),
   },
 
@@ -39,8 +47,10 @@ export const createUser = mutation({
     await ctx.db.insert("users", {
       clerkId: args.clerkId,
       email: args.email,
+      fullName: args.fullName,
       username: args.username,
       role,
+      createdAt: Date.now(),
     });
   },
 });

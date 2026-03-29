@@ -15,6 +15,7 @@ export default function SyncUser() {
     createUser({
       clerkId: user.id,
       email: user.primaryEmailAddress?.emailAddress!,
+      fullName: user.fullName ?? undefined,
       username: user.username ?? undefined,
     });
   }, [user, createUser]);
