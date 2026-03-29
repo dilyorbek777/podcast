@@ -32,6 +32,7 @@ export const createUser = mutation({
     email: v.string(),
     fullName: v.optional(v.string()),
     username: v.optional(v.string()),
+    profileImage: v.optional(v.string()),
   },
 
   handler: async (ctx, args) => {
@@ -49,6 +50,7 @@ export const createUser = mutation({
       email: args.email,
       fullName: args.fullName,
       username: args.username,
+      profileImage: args.profileImage,
       role,
       createdAt: Date.now(),
     });

@@ -120,7 +120,7 @@ export default async function BlogPost({
         </div>
       )}
 
-      <div className="prose prose-lg max-w-none mt-10 text-white">
+      <div className="prose prose-lg max-w-none mt-10  dark:text-white text-black">
         <p>{blog.description}</p>
       </div>
     </div>

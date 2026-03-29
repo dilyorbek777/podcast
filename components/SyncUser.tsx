@@ -17,6 +17,7 @@ export default function SyncUser() {
       email: user.primaryEmailAddress?.emailAddress!,
       fullName: user.fullName ?? undefined,
       username: user.username ?? undefined,
+      profileImage: user.imageUrl ?? undefined,
     });
   }, [user, createUser]);
 

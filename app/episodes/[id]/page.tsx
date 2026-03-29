@@ -123,7 +123,7 @@ export default async function EpisodePage({
         )}
       </div>
 
-      <div className="prose prose-lg mt-10 text-white">
+      <div className="prose prose-lg mt-10 dark:text-white text-black">
         <p>{episode.description}</p>
       </div>
     </div>
