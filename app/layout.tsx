@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
+import { Poppins, Inter } from "next/font/google";
 import "./globals.css";
 
 import { siteDetails } from "@/constants";
@@ -9,6 +9,9 @@ import ConvexClientProvider from "@/providers/ConvexClientProvider";
 import SyncUser from "@/components/SyncUser";
 import Link from "next/link";
 import { Send } from "lucide-react";
+import { cn } from "@/lib/utils";
+
+const inter = Inter({subsets:['latin'],variable:'--font-sans'});
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -75,7 +78,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={poppins.variable}
+      className={cn("font-sans", inter.variable)}
       suppressHydrationWarning
     >
       <body className="font-sans antialiased min-h-screen bg-white text-black">
