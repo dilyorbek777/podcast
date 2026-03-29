@@ -4,7 +4,7 @@ import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import VideoCard from "@/components/videoCard";
 import { Button } from "@/components/ui/button";
 
@@ -14,18 +14,22 @@ export default function EpisodesClient() {
   const episodes = useQuery(api.episode.getEpisodes);
   const [currentPage, setCurrentPage] = useState(1)
 
+  const data = useMemo(() => {
+    return episodes ? [...episodes].sort((a, b) => 
+      new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    ) : []
+  }, [episodes])
 
   if (!episodes) {
     return <div className="text-center py-20">Loading episodes...</div>;
   }
 
-
-  const totalPages = Math.ceil(episodes.length / VIDS_PER_PAGE)
+  const totalPages = Math.ceil(data.length / VIDS_PER_PAGE)
 
   const start = (currentPage - 1) * VIDS_PER_PAGE
   const end = start + VIDS_PER_PAGE
 
-  const currentVids = episodes.slice(start, end)
+  const currentVids = data.slice(start, end)
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
