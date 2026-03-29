@@ -5,6 +5,7 @@ import Image from "next/image"
 import About from "@/components/About";
 import BlogClient from "@/components/BlogClient";
 import ContactClient from "@/components/ContactClient";
+import { Button } from "@/components/ui/button";
 
 import { IoIosPlay } from "react-icons/io"
 import { motion } from "framer-motion"
@@ -35,7 +36,7 @@ const Home = () => {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="font-semibold text-[78px] leading-[80px] max-lg:leading-[60px] tracking-[-0.02em] text-center max-w-[841px] mx-auto max-lg:text-[48px] "
+              className="font-semibold text-white text-[78px] leading-[80px] max-lg:leading-[60px] tracking-[-0.02em] text-center max-w-[841px] mx-auto max-lg:text-[48px] "
             >
               {siteDetails.title}
             </motion.h1>
@@ -43,28 +44,27 @@ const Home = () => {
             {/* Button Animation */}
             <div className="flex items-center gap-7 flex-wrap justify-center">
               <Link href="/episodes" className="flex gap-2 items-center justify-center">
-                <motion.button
+                <motion.div
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5 }}
-                  className="bg-primary hover:bg-primary-700 transition-all px-7 py-4 flex items-center justify-center gap-2 rounded-sd text-lg cursor-pointer"
                 >
-
-                  Latest episode <IoIosPlay />
-                </motion.button>
+                  <Button size="lg" className="gap-2 px-6 py-3">
+                    Latest episode <IoIosPlay />
+                  </Button>
+                </motion.div>
               </Link>
               <Link href="/ai" className="flex gap-2 items-center justify-center">
-                <motion.button
+                <motion.div
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5 }}
-                  className="border border-primary backdrop-blur-sm hover:backdrop-blur-2xl font-bold  text-primary transition-all px-7 py-4 flex items-center justify-center gap-2 rounded-sd text-lg cursor-pointer"
                 >
-
-                  Try AI
-                  <span className="text-sm px-1 py-0 rounded-sd border-primary border text-black bg-primary hover:opacity-80">PRO</span>
-
-                </motion.button>
+                  <Button variant="secondary" size="lg" className="gap-2 px-6 py-3">
+                    Try AI
+                    <span className="text-sm px-1 py-0 rounded border border-primary text-black bg-primary hover:opacity-80">PRO</span>
+                  </Button>
+                </motion.div>
               </Link>
             </div>
 

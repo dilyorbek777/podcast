@@ -10,6 +10,7 @@ import SyncUser from "@/components/SyncUser";
 import Link from "next/link";
 import { Send } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const inter = Inter({subsets:['latin'],variable:'--font-sans'});
 
@@ -81,18 +82,25 @@ export default function RootLayout({
       className={cn("font-sans", inter.variable)}
       suppressHydrationWarning
     >
-      <body className="font-sans antialiased min-h-screen bg-white text-black">
-        <ClerkProvider>
+      <body className="font-sans antialiased min-h-screen bg-background text-foreground">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <ClerkProvider>
 
-          <ConvexClientProvider>
-            <Navbar />
-            <main>
-              <SyncUser />{children}</main>
-            <Link href={'/contact'} className="px-5 py-3 rounded-sd bg-primary shadow-2xl shadow-primary fixed bottom-5 right-5 z-30 font-bold  flex items-center justify-center gap-2 hover:bg-primary-600 text-white"><Send /> <span className="max-md:hidden">Contact Us</span></Link>
-          </ConvexClientProvider>
+            <ConvexClientProvider>
+              <Navbar />
+              <main>
+                <SyncUser />{children}</main>
+              <Link href={'/contact'} className="px-5 py-3 rounded-sd bg-primary shadow-2xl shadow-primary fixed bottom-5 right-5 z-30 font-bold  flex items-center justify-center gap-2 hover:bg-primary-600 text-white"><Send /> <span className="max-md:hidden">Contact Us</span></Link>
+            </ConvexClientProvider>
 
 
-        </ClerkProvider>
+          </ClerkProvider>
+        </ThemeProvider>
       </body>
     </html >
   );

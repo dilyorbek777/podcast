@@ -6,6 +6,7 @@ import { useMemo, useState } from "react"
 import { motion } from "framer-motion"
 import { useQuery } from "convex/react"
 import { api } from "@/convex/_generated/api"
+import { Button } from "@/components/ui/button"
 
 const POSTS_PER_PAGE = 6
 
@@ -35,7 +36,11 @@ const Blog = () => {
 
     const [currentPage, setCurrentPage] = useState(1)
 
-    const data = blogs ?? []
+    const data = useMemo(() => {
+        return blogs ? [...blogs].sort((a, b) => 
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        ) : []
+    }, [blogs])
 
     const totalPages = useMemo(
         () => Math.ceil(data.length / POSTS_PER_PAGE),
@@ -73,6 +78,7 @@ const Blog = () => {
                     <motion.div key={post._id} variants={itemVariants}>
                         <Link href={`/blog/${post._id}`} id={post._id}>
                             <PostCard
+                                created_at={post.createdAt.toString()}
                                 category={post.category}
                                 image={post.imageUrl}
                                 text={post.description}
@@ -85,17 +91,14 @@ const Blog = () => {
 
             <div className="flex gap-3 mt-10">
                 {Array.from({ length: totalPages }, (_, i) => (
-                    <button
+                    <Button
                         key={i}
                         onClick={() => setCurrentPage(i + 1)}
-                        className={`px-4 py-2 rounded-sd font-bold transition-all cursor-pointer border duration-150
-                        ${currentPage === i + 1
-                                ? "bg-primary text-white"
-                                : "bg-black text-primary hover:bg-gray-100"
-                            }`}
+                        variant={currentPage === i + 1 ? "default" : "outline"}
+                        size="sm"
                     >
                         {i + 1}
-                    </button>
+                    </Button>
                 ))}
             </div>
 

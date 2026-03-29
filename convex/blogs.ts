@@ -39,3 +39,17 @@ export const getBlog = query({
     return await ctx.db.get(args.id);
   },
 });
+
+export const updateBlog = mutation({
+  args: {
+    id: v.id("blogs"),
+    title: v.string(),
+    description: v.string(),
+    category: v.string(),
+    imageUrl: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const { id, ...updateData } = args;
+    await ctx.db.patch(id, updateData);
+  },
+});

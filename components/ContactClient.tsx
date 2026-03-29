@@ -1,7 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function ContactPage() {
     const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
@@ -42,33 +45,33 @@ export default function ContactPage() {
 
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
-                    <div>
-                        <label className="block text-sm font-medium mb-1">Name</label>
-                        <input name="name" type="text" required className="w-full border-primary-400 outline-none px-5 py-3 text-white border rounded-sd " placeholder="John" />
+                    <div className="space-y-2">
+                        <Label htmlFor="name">Name</Label>
+                        <Input id="name" name="name" type="text" required placeholder="John" />
                     </div>
-                    <div>
-                        <label className="block text-sm font-medium mb-1">Surname</label>
-                        <input name="family" type="text" required className="w-full border-primary-400 outline-none px-5 py-3 text-white border rounded-sd " placeholder="Doe" />
+                    <div className="space-y-2">
+                        <Label htmlFor="family">Surname</Label>
+                        <Input id="family" name="family" type="text" required placeholder="Doe" />
                     </div>
                 </div>
 
-                <div>
-                    <label className="block text-sm font-medium mb-1">Number</label>
-                    <input name="phone" type="tel" required className="w-full border-primary-400 outline-none px-5 py-3 text-white border rounded-sd " placeholder="+998 90 123 45 67" />
+                <div className="space-y-2">
+                    <Label htmlFor="phone">Number</Label>
+                    <Input id="phone" name="phone" type="tel" required placeholder="+998 90 123 45 67" />
                 </div>
 
-                <div>
-                    <label className="block text-sm font-medium mb-1">Message</label>
-                    <textarea name="message" required rows={4} className="w-full  border-primary-400 outline-none px-5 py-3 text-white border resize-none rounded-sd " placeholder="Type your message here..." />
+                <div className="space-y-2">
+                    <Label htmlFor="message">Message</Label>
+                    <Textarea id="message" name="message" required rows={4} placeholder="Type your message here..." />
                 </div>
 
-                <button
+                <Button
                     type="submit"
                     disabled={status === 'loading'}
-                    className="w-full bg-primary-400 text-white py-3 px-5 rounded-sd hover:bg-primary-600 disabled:bg-gray-400 transition"
+                    className="w-full"
                 >
                     {status === 'loading' ? 'Sending...' : 'Send'}
-                </button>
+                </Button>
 
                 {status === 'success' && (
                     <p className="text-green-600 font-medium text-center mt-2">Sent successfully!</p>

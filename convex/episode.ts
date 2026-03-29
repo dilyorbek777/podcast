@@ -40,3 +40,18 @@ export const getEpisode = query({
     return await ctx.db.get(args.id);
   },
 });
+
+export const updateEpisode = mutation({
+  args: {
+    id: v.id("episodes"),
+    title: v.string(),
+    description: v.string(),
+    category: v.string(),
+    videoUrl: v.string(),
+    posterUrl: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const { id, ...updateData } = args;
+    await ctx.db.patch(id, updateData);
+  },
+});

@@ -1,5 +1,6 @@
 "use client"
 import Image from "next/image"
+import { Button } from "@/components/ui/button";
 
 import { motion } from "framer-motion"
 import { about, siteDetails } from "@/constants";
@@ -25,8 +26,8 @@ const About = () => {
     };
   
     return (
-      <div className="max-w-[1720px] mx-auto w-full p-24 max-md:p-4 min-h-screen flex flex-col items-center">
-        <h1 className="text-5xl font-bold my-8 max-md:my-16 text-center">About Us</h1>
+      <div className="max-w-[1720px] mx-auto w-full p-24 max-md:p-4 min-h-screen flex flex-col items-center bg-background">
+        <h1 className="text-5xl font-bold my-8 max-md:my-16 text-center text-foreground">About Us</h1>
   
         <motion.div
           variants={containerVariants}
@@ -38,7 +39,7 @@ const About = () => {
             <motion.div key={a.id} variants={itemVariants}>
               <div className="flex flex-col text-xl my-7 gap-3 max-w-[500px]">
                 <h3 className="text-primary text-4xl font-bold">{a.title}</h3>
-                <p>{a.text}</p>
+                <p className="text-foreground">{a.text}</p>
               </div>
               {a.img && (
                 <Image

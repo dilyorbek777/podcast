@@ -47,7 +47,6 @@ export default function AdminPage() {
   const [activeTab, setActiveTab] = useState<"blogs" | "episodes">("blogs")
   const [editingItem, setEditingItem] = useState<any>(null)
   const [isCreating, setIsCreating] = useState(false)
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
   const [deleteItem, setDeleteItem] = useState<{id: any, type: "blog" | "episode"} | null>(null)
 
   const blogs = useQuery(api.blogs.getBlogs)
@@ -130,7 +129,6 @@ export default function AdminPage() {
         posterUrl: ""
       })
       setIsCreating(false)
-      setIsEditDialogOpen(false)
       setEditingItem(null)
     } catch (error) {
       console.error("Error creating item:", error)
@@ -165,7 +163,6 @@ export default function AdminPage() {
       videoUrl: item.videoUrl || "",
       posterUrl: item.posterUrl || ""
     })
-    setIsEditDialogOpen(true)
   }
 
   if (!blogs || !episodes) return (
@@ -178,7 +175,7 @@ export default function AdminPage() {
     </div>
   )
 
-  if (isCreating) return (
+  if (isCreating || editingItem) return (
     <div className="max-w-[1720px] mx-auto w-full p-24 max-md:p-4 min-h-screen flex flex-col items-center">
       <motion.h1 
         initial={{ opacity: 0, y: 40 }}
@@ -197,7 +194,7 @@ export default function AdminPage() {
       >
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-3xl font-bold">
-            Create New {activeTab === "blogs" ? "Blog" : "Episode"}
+            {editingItem ? "Edit Item" : "Create New"} {editingItem?.type || activeTab === "blogs" ? "Blog" : "Episode"}
           </h1>
           <Button 
             variant="outline" 
@@ -220,7 +217,7 @@ export default function AdminPage() {
 
         <Card>
           <CardContent className="pt-6">
-            <form onSubmit={(e) => handleSubmit(e, activeTab === "blogs" ? "blog" : "episode")} className="space-y-4">
+            <form onSubmit={(e) => handleSubmit(e, editingItem?.type || (activeTab === "blogs" ? "blog" : "episode"))} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium mb-2">Title</label>
                 <input
@@ -248,24 +245,28 @@ export default function AdminPage() {
                   type="text"
                   value={formData.category}
                   onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                  className="w-full p-2 border rounded-md"
-                  required
-                />
-              </div>
 
-              {(activeTab === "blogs" || editingItem?.type === "blog") && (
-                <div>
-                  <label className="block text-sm font-medium mb-2">Image Upload</label>
-                  <ImageUploader onUpload={(url) => setFormData({ ...formData, imageUrl: url })} />
-                  {formData.imageUrl && (
-                    <p className="text-sm text-green-600 mt-2">Image uploaded successfully!</p>
-                  )}
-                </div>
-              )}
+if (isCreating || editingItem) return (
+  <div className="max-w-[1720px] mx-auto w-full p-24 max-md:p-4 min-h-screen flex flex-col items-center">
+    <motion.h1 
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8 }}
+      className="text-5xl font-bold my-12 max-md:my-16 text-center"
+    >
+      Admin Dashboard
+    </motion.h1>
 
-              {(activeTab === "episodes" || editingItem?.type === "episode") && (
-                <>
-                  <div>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.2 }}
+      className="max-w-2xl mx-auto w-full"
+    >
+      <div className="flex items-center justify-between mb-8">
+        <h1 className="text-3xl font-bold">
+          {editingItem ? "Edit Item" : "Create New"} {editingItem?.type || activeTab === "blogs" ? "Blog" : "Episode"}
+        </h1>
                     <label className="block text-sm font-medium mb-2">Video Upload</label>
                     <VideoUploader onUpload={(url) => setFormData({ ...formData, videoUrl: url })} />
                     {formData.videoUrl && (
@@ -499,105 +500,6 @@ export default function AdminPage() {
           </motion.div>
         )}
       </motion.div>
-
-      {/* Edit Dialog */}
-      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>Edit {editingItem?.type === "blog" ? "Blog" : "Episode"}</DialogTitle>
-            <DialogDescription>
-              Make changes to your {editingItem?.type === "blog" ? "blog" : "episode"} here.
-            </DialogDescription>
-          </DialogHeader>
-          
-          <form onSubmit={(e) => handleSubmit(e, editingItem?.type)} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium mb-2">Title</label>
-              <input
-                type="text"
-                value={formData.title}
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                className="w-full p-2 border rounded-md"
-                required
-              />
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium mb-2">Description</label>
-              <textarea
-                value={formData.description}
-                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                className="w-full p-2 border rounded-md h-32"
-                required
-              />
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium mb-2">Category</label>
-              <input
-                type="text"
-                value={formData.category}
-                onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                className="w-full p-2 border rounded-md"
-                required
-              />
-            </div>
-
-            {editingItem?.type === "blog" && (
-              <div>
-                <label className="block text-sm font-medium mb-2">Image Upload</label>
-                <ImageUploader onUpload={(url) => setFormData({ ...formData, imageUrl: url })} />
-                {formData.imageUrl && (
-                  <p className="text-sm text-green-600 mt-2">Image uploaded successfully!</p>
-                )}
-              </div>
-            )}
-
-            {editingItem?.type === "episode" && (
-              <>
-                <div>
-                  <label className="block text-sm font-medium mb-2">Video Upload</label>
-                  <VideoUploader onUpload={(url) => setFormData({ ...formData, videoUrl: url })} />
-                  {formData.videoUrl && (
-                    <p className="text-sm text-green-600 mt-2">Video uploaded successfully!</p>
-                  )}
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-2">Poster Upload</label>
-                  <PosterUploader onUpload={(url) => setFormData({ ...formData, posterUrl: url })} />
-                  {formData.posterUrl && (
-                    <p className="text-sm text-green-600 mt-2">Poster uploaded successfully!</p>
-                  )}
-                </div>
-              </>
-            )}
-
-            <DialogFooter>
-              <Button 
-                type="button" 
-                variant="outline"
-                onClick={() => {
-                  setIsEditDialogOpen(false)
-                  setEditingItem(null)
-                  setFormData({
-                    title: "",
-                    description: "",
-                    category: "",
-                    imageUrl: "",
-                    videoUrl: "",
-                    posterUrl: ""
-                  })
-                }}
-              >
-                Cancel
-              </Button>
-              <Button type="submit">
-                Update
-              </Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
     </div>
   )
 }

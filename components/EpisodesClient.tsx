@@ -6,6 +6,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import VideoCard from "@/components/videoCard";
+import { Button } from "@/components/ui/button";
 
 const VIDS_PER_PAGE = 6;
 
@@ -72,17 +73,14 @@ export default function EpisodesClient() {
 
       <div className="flex gap-3 mt-10">
         {Array.from({ length: totalPages }, (_, i) => (
-          <button
+          <Button
             key={i}
             onClick={() => setCurrentPage(i + 1)}
-            className={`px-4 py-2 rounded-sd font-bold transition-all cursor-pointer border duration-150
-                        ${currentPage === i + 1
-                ? "bg-primary text-white"
-                : "bg-black text-primary hover:bg-gray-100"
-              }`}
+            variant={currentPage === i + 1 ? "default" : "outline"}
+            size="sm"
           >
             {i + 1}
-          </button>
+          </Button>
         ))}
       </div>
     </section>
