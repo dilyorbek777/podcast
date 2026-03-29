@@ -1,16 +1,18 @@
 "use client";
-import { useUser } from "@clerk/nextjs";
-import { UserButton } from "@clerk/nextjs";
+import { useUser, useClerk } from "@clerk/nextjs";
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { ThemeToggle } from "@/components/theme-toggle";
 import ProfileEditDialog from "@/components/profile-edit-dialog";
-import { FaUser, FaPalette, FaBell, FaShield } from "react-icons/fa6";
+import { FaUser, FaPalette } from "react-icons/fa6";
+import { LogOut } from "lucide-react";
 
 const SettingsPage = () => {
   const { user, isLoaded } = useUser();
+  const { signOut } = useClerk();
   const [activeTab, setActiveTab] = useState("profile");
 
   if (!isLoaded) {
@@ -38,7 +40,7 @@ const SettingsPage = () => {
   const tabs = [
     { id: "profile", label: "Profile", icon: FaUser },
     { id: "appearance", label: "Appearance", icon: FaPalette },
-    
+
   ];
 
   return (
@@ -55,15 +57,21 @@ const SettingsPage = () => {
             <Card>
               <CardContent className="p-4">
                 <div className="flex flex-col items-center mb-6">
-                  <UserButton appearance={{
-                    elements: {
-                      avatarBox: "w-20 h-20"
-                    }
-                  }} />
+                  <Avatar className="h-24 w-24 md:h-32 md:w-32 border-4 border-background shadow-xl">
+                    <AvatarImage src={user.imageUrl} />
+                    <AvatarFallback className="text-2xl">{user.firstName?.charAt(0)}</AvatarFallback>
+                  </Avatar>
                   <h3 className="mt-3 font-semibold">{user.fullName || user.username}</h3>
                   <p className="text-sm text-muted-foreground">{user.primaryEmailAddress?.emailAddress}</p>
+                  <Button
+                    variant="destructive"
+                    className="mt-4 w-fit"
+                    onClick={() => signOut()}
+                  >
+                    Log Out <LogOut className="h-4 w-4" />
+                  </Button>
                 </div>
-                
+
                 <nav className="space-y-2 flex items-center justify-center w-full">
                   {tabs.map((tab) => {
                     const Icon = tab.icon;
@@ -71,11 +79,10 @@ const SettingsPage = () => {
                       <button
                         key={tab.id}
                         onClick={() => setActiveTab(tab.id)}
-                        className={`w-full flex items-center justify-center gap-3 px-3 py-2 rounded-lg text-center transition-colors ${
-                          activeTab === tab.id
-                            ? "bg-primary text-primary-foreground"
-                            : "hover:bg-muted"
-                        }`}
+                        className={`w-full flex items-center justify-center gap-3 px-3 py-2 rounded-lg text-center transition-colors ${activeTab === tab.id
+                          ? "bg-primary text-primary-foreground"
+                          : "hover:bg-muted"
+                          }`}
                       >
                         <Icon size={16} />
                         {tab.label}
@@ -145,9 +152,9 @@ const SettingsPage = () => {
               </Card>
             )}
 
-          
 
-            
+
+
           </div>
         </div>
       </div>
