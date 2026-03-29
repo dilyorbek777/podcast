@@ -16,7 +16,7 @@ const Navbar = () => {
 
 
     return (
-        <nav className="flex fixed backdrop-blur-2xl rounded-sd max-md:p-4 z-50 top-3 right-0 left-0 max-w-[1720px] w-full mx-auto items-center justify-between px-24 py-5">
+        <nav className="flex fixed backdrop-blur-2xl max-lg:hidden rounded-sd max-md:p-4 z-50 top-3 right-0 left-0 max-w-[1720px] w-full mx-auto items-center justify-between px-24 py-5">
             <Link href={'/'}>
                 <Image className="w-[53px] h-[53px] max-md:w-[36px] max-md:h-[36px]"
                     width={150} height={40}
@@ -50,6 +50,7 @@ const Navbar = () => {
 
                     </Show>
                     <Show when="signed-in">
+                       
                         <UserButton />
                     </Show>
                     <ThemeToggle />

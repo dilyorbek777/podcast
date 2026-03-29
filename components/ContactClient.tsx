@@ -40,8 +40,8 @@ export default function ContactPage() {
     }
 
     return (
-        <main className="max-w-xl mx-auto p-6 flex-col flex items-center justify-center h-screen w-full">
-            <h1 className="mb-6 text-center text-primary text-5xl font-bold my-12 max-md:my-16">Contact Us</h1>
+        <main className="max-w-xl mx-auto p-6  relative flex-col flex items-center justify-center h-screen w-full">
+              <h1 className="mb-6 text-center text-primary text-5xl font-bold my-12 max-md:my-16">Contact Us</h1>
 
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">

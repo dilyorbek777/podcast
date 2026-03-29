@@ -6,6 +6,14 @@ export const navLinks = [
   { name: "AI", path: "/ai" },
 ];
 
+export const bottomLinks = [
+  { name: "Home", path: "/" },
+  { name: "Episodes", path: "/episodes" },
+  { name: "Blog", path: "/blog" },
+  { name: "Contact", path: "/contact" },
+  { name: "Settings", path: "/settings" },
+];
+
 export const siteDetails = {
   title: "Elevate Your Mind, \n Transform Your World",
   sub: "uPodcast",
