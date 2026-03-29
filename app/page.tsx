@@ -11,8 +11,41 @@ import { IoIosPlay, IoMdMic, IoMdStar, IoMdPeople } from "react-icons/io"
 import { motion } from "framer-motion"
 import Link from "next/link"
 import EpisodesClient from "@/components/EpisodesClient";
+import { useState } from "react"
 
 const Home = () => {
+  const [email, setEmail] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
+  const [message, setMessage] = useState("")
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsLoading(true)
+    setMessage("")
+
+    try {
+      const response = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      })
+
+      const data = await response.json()
+
+      if (response.ok) {
+        setMessage("Successfully subscribed!")
+        setEmail("")
+      } else {
+        setMessage(data.error || "Something went wrong")
+      }
+    } catch (error) {
+      setMessage("Something went wrong")
+    } finally {
+      setIsLoading(false)
+    }
+  }
   return (
     <div className="min-h-screen bg-background py-20">
 
@@ -171,14 +204,24 @@ const Home = () => {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl font-bold text-foreground mb-4">Never Miss an Episode</h2>
           <p className="text-lg text-muted-foreground mb-8">Subscribe to get the latest episodes delivered to your inbox</p>
-          <div className="flex gap-4 max-w-md mx-auto">
+          <form onSubmit={handleSubscribe} className="flex flex-col gap-4 max-w-md mx-auto">
             <input
               type="email"
               placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
               className="flex-1 px-4 py-3 border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-ring bg-background text-foreground"
             />
-            <Button>Subscribe</Button>
-          </div>
+            <Button type="submit" disabled={isLoading}>
+              {isLoading ? "Subscribing..." : "Subscribe"}
+            </Button>
+            {message && (
+              <p className={`text-sm ${message.includes("Successfully") ? "text-green-600" : "text-red-600"}`}>
+                {message}
+              </p>
+            )}
+          </form>
         </div>
       </section>
 

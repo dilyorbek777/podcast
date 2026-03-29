@@ -57,7 +57,15 @@ export default function ContactPage() {
 
                 <div className="space-y-2">
                     <Label htmlFor="phone">Number</Label>
-                    <Input id="phone" name="phone" type="tel" required placeholder="+998 90 123 45 67" />
+                    <Input 
+                        id="phone" 
+                        name="phone" 
+                        type="tel" 
+                        required 
+                        placeholder="+998 90 123 45 67"
+                        pattern="^\+998.*"
+                        title="Phone number must start with +998"
+                    />
                 </div>
 
                 <div className="space-y-2">

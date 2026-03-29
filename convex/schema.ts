@@ -24,4 +24,15 @@ export default defineSchema({
     category: v.string(),
     createdAt: v.number(),
   }),
+  newsletter: defineTable({
+    email: v.string(),
+    subscribedAt: v.number(),
+  }).index("by_email", ["email"]),
+  contacts: defineTable({
+    name: v.string(),
+    family: v.string(),
+    phone: v.string(),
+    message: v.string(),
+    createdAt: v.number(),
+  }),
 });

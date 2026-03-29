@@ -9,7 +9,9 @@
  */
 
 import type * as blogs from "../blogs.js";
+import type * as contacts from "../contacts.js";
 import type * as episode from "../episode.js";
+import type * as newsletter from "../newsletter.js";
 import type * as users from "../users.js";
 
 import type {
@@ -20,7 +22,9 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   blogs: typeof blogs;
+  contacts: typeof contacts;
   episode: typeof episode;
+  newsletter: typeof newsletter;
   users: typeof users;
 }>;
 

@@ -44,14 +44,16 @@ const maxLength = 160;
 const titleMaxLength = 32;
 
 export default function AdminPage() {
-  const [activeTab, setActiveTab] = useState<"blogs" | "episodes">("blogs")
+  const [activeTab, setActiveTab] = useState<"blogs" | "episodes" | "newsletter" | "contacts">("blogs")
   const [editingItem, setEditingItem] = useState<any>(null)
   const [isCreating, setIsCreating] = useState(false)
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
-  const [deleteItem, setDeleteItem] = useState<{id: any, type: "blog" | "episode"} | null>(null)
+  const [deleteItem, setDeleteItem] = useState<{id: any, type: "blog" | "episode" | "contact"} | null>(null)
 
   const blogs = useQuery(api.blogs.getBlogs)
   const episodes = useQuery(api.episode.getEpisodes)
+  const newsletter = useQuery(api.newsletter.getAll)
+  const contacts = useQuery(api.contacts.getContacts)
   
   const sortedBlogs = useMemo(() => {
     return blogs ? [...blogs].sort((a, b) => 
@@ -71,6 +73,7 @@ export default function AdminPage() {
   const deleteEpisode = useMutation(api.episode.deleteEpisode)
   const updateBlog = useMutation(api.blogs.updateBlog)
   const updateEpisode = useMutation(api.episode.updateEpisode)
+  const deleteContact = useMutation(api.contacts.deleteContact)
 
   const [formData, setFormData] = useState({
     title: "",
@@ -137,7 +140,7 @@ export default function AdminPage() {
     }
   }
 
-  const handleDelete = async (id: any, type: "blog" | "episode") => {
+  const handleDelete = async (id: any, type: "blog" | "episode" | "contact") => {
     setDeleteItem({ id, type })
   }
 
@@ -146,8 +149,10 @@ export default function AdminPage() {
     try {
       if (deleteItem.type === "blog") {
         await deleteBlog({ id: deleteItem.id })
-      } else {
+      } else if (deleteItem.type === "episode") {
         await deleteEpisode({ id: deleteItem.id })
+      } else if (deleteItem.type === "contact") {
+        await deleteContact({ id: deleteItem.id })
       }
       setDeleteItem(null)
     } catch (error) {
@@ -168,7 +173,7 @@ export default function AdminPage() {
     setIsEditDialogOpen(true)
   }
 
-  if (!blogs || !episodes) return (
+  if (!blogs || !episodes || !newsletter || !contacts) return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4 w-full h-screen absolute z-50">
       {/* Spinner Animation */}
       <div className="w-12 h-12 border-4 border-blue-200 border-t-primary-600 rounded-full animate-spin"></div>
@@ -341,18 +346,32 @@ export default function AdminPage() {
         >
           Episodes ({sortedEpisodes?.length || 0})
         </Button>
-      </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3 }}
-        className="mb-6"
-      >
-        <Button onClick={() => setIsCreating(true)} className="gap-2">
-          Create New {activeTab === "blogs" ? "Blog" : "Episode"}
+        <Button 
+          variant={activeTab === "newsletter" ? "default" : "outline"}
+          onClick={() => setActiveTab("newsletter")}
+        >
+          Subscribed Users ({newsletter?.length || 0})
+        </Button>
+        <Button 
+          variant={activeTab === "contacts" ? "default" : "outline"}
+          onClick={() => setActiveTab("contacts")}
+        >
+          Contact Messages ({contacts?.length || 0})
         </Button>
       </motion.div>
+
+      {activeTab !== "newsletter" && activeTab !== "contacts" && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="mb-6"
+        >
+          <Button onClick={() => setIsCreating(true)} className="gap-2">
+            Create New {activeTab === "blogs" ? "Blog" : "Episode"}
+          </Button>
+        </motion.div>
+      )}
 
       <motion.div
         variants={containerVariants}
@@ -486,14 +505,121 @@ export default function AdminPage() {
           </motion.div>
         ))}
 
-        {((activeTab === "blogs" && (!sortedBlogs || sortedBlogs.length === 0)) ||
-          (activeTab === "episodes" && (!sortedEpisodes || sortedEpisodes.length === 0))) && (
-          <motion.div variants={itemVariants}>
-            <Card className="text-center">
-              <CardContent className="py-12">
-                <p className="text-muted-foreground text-lg">
-                  No {activeTab} found. Create your first {activeTab === "blogs" ? "blog" : "episode"}!
-                </p>
+        {activeTab === "newsletter" && (
+          <motion.div variants={itemVariants} className="col-span-full">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-2xl">Subscribed Users</CardTitle>
+                <CardDescription>
+                  Users who have subscribed to your newsletter
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {newsletter && newsletter.length > 0 ? (
+                  <div className="space-y-4">
+                    <div className="text-sm text-muted-foreground mb-4">
+                      Total subscribers: {newsletter.length}
+                    </div>
+                    <div className="grid gap-4">
+                      {newsletter.map((subscriber: any) => (
+                        <div
+                          key={subscriber._id}
+                          className="flex items-center justify-between p-4 border rounded-lg"
+                        >
+                          <div>
+                            <p className="font-medium">{subscriber.email}</p>
+                            <p className="text-sm text-muted-foreground">
+                              Subscribed on {new Date(subscriber.subscribedAt).toLocaleDateString()}
+                            </p>
+                          </div>
+                          <Badge variant="secondary">Active</Badge>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="text-center py-12">
+                    <p className="text-muted-foreground text-lg">
+                      No subscribers yet. Users will appear here when they subscribe to newsletter.
+                    </p>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </motion.div>
+        )}
+
+        {activeTab === "contacts" && (
+          <motion.div variants={itemVariants} className="col-span-full">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-2xl">Contact Messages</CardTitle>
+                <CardDescription>
+                  Messages submitted through the contact form
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {contacts && contacts.length > 0 ? (
+                  <div className="space-y-4">
+                    <div className="text-sm text-muted-foreground mb-4">
+                      Total messages: {contacts.length}
+                    </div>
+                    <div className="grid gap-4">
+                      {contacts.map((contact: any) => (
+                        <div
+                          key={contact._id}
+                          className="flex items-start justify-between p-4 border rounded-lg"
+                        >
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-2">
+                              <p className="font-medium">{contact.name} {contact.family}</p>
+                              <Badge variant="secondary">{contact.phone}</Badge>
+                            </div>
+                            <p className="text-sm text-muted-foreground mb-2">
+                              {new Date(contact.createdAt).toLocaleDateString()} at {new Date(contact.createdAt).toLocaleTimeString()}
+                            </p>
+                            <p className="text-sm">{contact.message}</p>
+                          </div>
+                          <div className="flex gap-2 ml-4">
+                            <Dialog>
+                              <DialogTrigger asChild>
+                                <Button 
+                                  variant="destructive" 
+                                  size="sm"
+                                  onClick={() => handleDelete(contact._id, "contact")}
+                                >
+                                  Delete
+                                </Button>
+                              </DialogTrigger>
+                              <DialogContent>
+                                <DialogHeader>
+                                  <DialogTitle>Confirm Delete</DialogTitle>
+                                  <DialogDescription>
+                                    Are you sure you want to delete this message from {contact.name} {contact.family}? This action cannot be undone.
+                                  </DialogDescription>
+                                </DialogHeader>
+                                <DialogFooter>
+                                  <Button variant="outline" onClick={() => setDeleteItem(null)}>
+                                    Cancel
+                                  </Button>
+                                  <Button variant="destructive" onClick={confirmDelete}>
+                                    Delete
+                                  </Button>
+                                </DialogFooter>
+                              </DialogContent>
+                            </Dialog>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="text-center py-12">
+                    <p className="text-muted-foreground text-lg">
+                      No contact messages yet. Messages will appear here when users submit the contact form.
+                    </p>
+                  </div>
+                )}
               </CardContent>
             </Card>
           </motion.div>
